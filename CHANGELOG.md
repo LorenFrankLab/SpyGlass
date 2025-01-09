@@ -1,5 +1,25 @@
 # Change Log
 
+## [0.5.5] (Unreleased)
+
+### Release Notes
+
+<!-- Running draft to be removed immediately prior to release. -->
+
+<!-- When altering tables, import all foreign key references. -->
+
+```python
+import datajoint as dj
+from spyglass.spikesorting.v1.recording import *  # noqa
+from spyglass.linearization.v1.main import *  # noqa
+
+dj.FreeTable(dj.conn(), "common_nwbfile.analysis_nwbfile_log").drop()
+dj.FreeTable(dj.conn(), "common_session.session_group").drop()
+TrackGraph.alter()  # Add edge map parameter
+SpikeSortingRecording().alter()
+SpikeSortingRecording().update_ids()
+```
+
 ## [0.5.4] (December 20, 2024)
 
 ### Infrastructure
@@ -8,6 +28,7 @@
     #1108, #1172, #1187
 - Add docstrings to all public methods #1076
 - Update DataJoint to 0.14.2 #1081
+- Remove `AnalysisNwbfileLog` #1093
 - Allow restriction based on parent keys in `Merge.fetch_nwb()` #1086, #1126
 - Import `datajoint.dependencies.unite_master_parts` -> `topo_sort` #1116,
     #1137, #1162
@@ -19,6 +40,7 @@
 - Update DataJoint install and password instructions #1131
 - Fix dandi upload process for nwb's with video or linked objects #1095, #1151
 - Minor docs fixes #1145
+- Add Nwb hashing tool #1093
 - Test fixes
     - Remove stored hashes from pytests #1152
     - Remove mambaforge from tests #1153
@@ -78,6 +100,7 @@
     - Fix bug in `get_group_by_shank` #1096
     - Fix bug in `_compute_metric` #1099
     - Fix bug in `insert_curation` returned key #1114
+    - Add fields to `SpikeSortingRecording` to allow recompute #1093
     - Fix handling of waveform extraction sparse parameter #1132
     - Limit Artifact detection intervals to valid times #1196
 
